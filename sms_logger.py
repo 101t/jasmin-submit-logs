@@ -39,6 +39,9 @@ Check constraints:
 Access method: heap
 """
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 import pickle as pickle
 import binascii
@@ -62,7 +65,7 @@ pg_connection_dict = {
     'user': os.getenv("JASMIN_DB_USER", default="jasmin"),
     'password': os.getenv("JASMIN_DB_PASS", default="jasmin"),
     'port': int(os.getenv("JASMIN_DB_PORT", default="5432")),
-    'host': os.getenv("JASMIN_DB_HOST", default="localhost")
+    'host': os.getenv("JASMIN_DB_HOST", default="127.0.0.1")
 }
 
 @inlineCallbacks

@@ -3,3 +3,4 @@ psycopg2-binary
 txAMQP3~=0.9.3
 smpp.pdu3~=0.6
 smpp.twisted3~=0.7
+python-dotenv

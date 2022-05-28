@@ -9,7 +9,7 @@ SyslogIdentifier=submit_logger
 PIDFile=/run/submit_logger.pid
 User=jasmin
 Group=jasmin
-ExecStart=/jasmin/jasmin_submit_logs/sms_logger.py
+ExecStart=/jasmin/jasmin_submit_logs/env/bin/python3 /jasmin/jasmin_submit_logs/sms_logger.py
 
 [Install]
 WantedBy=multi-user.target
