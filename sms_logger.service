@@ -1,0 +1,15 @@
+[Unit]
+Description=Jasmin SMS Submit Logger - Jasmin Web Panel Addon
+Requires=network.target jasmind.service
+After=network.target
+Before=jasmind.service
+
+[Service]
+SyslogIdentifier=submit_logger
+PIDFile=/run/submit_logger.pid
+User=jasmin
+Group=jasmin
+ExecStart=/jasmin/jasmin_submit_logs/sms_logger.py
+
+[Install]
+WantedBy=multi-user.target
