@@ -173,7 +173,7 @@ def gotConnection(conn, username, password):
                 qmsg['pdu_count'],
                 qmsg['destination_addr'],
                 qmsg['short_message'],
-                pdu.status,
+                str(pdu.status).replace("CommandStatus.", ""),
                 qmsg['uid'],
                 props['headers']['created_at'],
                 qmsg['binary_message'],
