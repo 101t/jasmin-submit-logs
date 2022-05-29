@@ -57,6 +57,7 @@ import txamqp.spec
 from smpp.pdu.pdu_types import DataCoding
 
 import psycopg2
+from psycopg2 import pool
 
 q = {}
 
@@ -89,9 +90,11 @@ def gotConnection(conn, username, password):
     queue = yield conn.queue("sms_logger")
 
     # Connection parameters - Fill this info with your PostgreSQL server connection parameters
-    db = psycopg2.connect(**pg_connection_dict)
-
-    print("Connected to PostgreSQL")
+    # db = psycopg2.connect(**pg_connection_dict)
+    db_pool = psycopg2.pool.SimpleConnectionPool(1, 20, **pg_connection_dict)
+    db = db_pool.getconn()
+    if db:
+        print("Connected to PostgreSQL")
     cursor = db.cursor()
 
     # Wait for messages
@@ -161,6 +164,7 @@ def gotConnection(conn, username, password):
             # ON DUPLICATE KEY UPDATE trials = trials + 1;
             # http://stackoverflow.com/a/34639631/4418
             """
+            pdu_status = str(pdu.status).replace("CommandStatus.", "")
             cursor.execute("""INSERT INTO submit_log (msgid, source_addr, rate, pdu_count,
                                                       destination_addr, short_message,
                                                       status, uid, created_at, binary_message,
@@ -173,7 +177,7 @@ def gotConnection(conn, username, password):
                 qmsg['pdu_count'],
                 qmsg['destination_addr'],
                 qmsg['short_message'],
-                str(pdu.status).replace("CommandStatus.", ""),
+                pdu_status,
                 qmsg['uid'],
                 props['headers']['created_at'],
                 qmsg['binary_message'],
@@ -195,8 +199,9 @@ def gotConnection(conn, username, password):
 
             # Update message status
             qmsg = q[props['message-id']]
+            message_status = str(props['headers']['message_status']).replace("CommandStatus.", "")
             cursor.execute("UPDATE submit_log SET status = %s, status_at = %s WHERE msgid = %s;", (
-                props['headers']['message_status'],
+                message_status,
                 datetime.now(),
                 props['message-id'],))
             db.commit()
