@@ -170,7 +170,7 @@ def gotConnection(conn, username, password):
                                                       status, uid, created_at, binary_message,
                                                       routed_cid, source_connector, status_at)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (trials) DO UPDATE SET submit_log.trials = submit_log.trials + 1;""", (
+                    ON CONFLICT (trials) DO UPDATE SET trials = submit_log.trials + 1;""", (
                 props['message-id'],
                 qmsg['source_addr'],
                 qmsg['rate'],
