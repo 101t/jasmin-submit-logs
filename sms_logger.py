@@ -163,15 +163,16 @@ def gotConnection(conn, username, password):
             """
             # ON DUPLICATE KEY UPDATE trials = trials + 1;
             # http://stackoverflow.com/a/34639631/4418
-            # trials deprecated
-            # ON CONFLICT (trials) DO UPDATE SET trials = submit_log.trials + 1
+
+            # ON CONFLICT (trials) DO UPDATE submit_log SET trials = submit_log.trials + 1;
             """
             pdu_status = str(pdu.status).replace("CommandStatus.", "")
             cursor.execute("""INSERT INTO submit_log (msgid, source_addr, rate, pdu_count,
                                                       destination_addr, short_message,
                                                       status, uid, created_at, binary_message,
-                                                      routed_cid, source_connector, status_at)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (
+                                                      routed_cid, source_connector, status_at, trials)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 1);
+                    """, (
                 props['message-id'],
                 qmsg['source_addr'],
                 qmsg['rate'],
@@ -246,3 +247,4 @@ if __name__ == "__main__":
     d.addErrback(whoops)
 
     reactor.run()
+
