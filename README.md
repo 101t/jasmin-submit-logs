@@ -17,7 +17,7 @@ cp Sample.env .env
 Adding service to systemd
 
 ```sh
-ln -s /jasmin/jasmin_submit_logs/sms_logger.service /etc/systemd/system/
+ln -s /jasmin/jasmin-submit-logs/sms_logger.service /etc/systemd/system/
 ```
 
 Enable and Start Systemctl service
