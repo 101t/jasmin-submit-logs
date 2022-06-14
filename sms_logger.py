@@ -222,12 +222,12 @@ def gotConnection(conn, username, password):
 
 
 if __name__ == "__main__":
-    host = '127.0.0.1'
-    port = 5672
-    vhost = '/'
-    username = 'guest'
-    password = 'guest'
-    spec_file = '/etc/jasmin/resource/amqp0-9-1.xml'
+    host = os.getenv("AMQ_HOST", default='127.0.0.1')
+    port = int(os.getenv("AMQ_PORT", default=5672))
+    vhost = os.getenv("AMQ_VHOST", default='/')
+    username = os.getenv("AMQ_USERNAME", default='guest')
+    password = os.getenv("AMQ_PASSWORD", default='guest')
+    spec_file = os.getenv("AMQ_SPEC_FILE", default='/etc/jasmin/resource/amqp0-9-1.xml')
 
     spec = txamqp.spec.load(spec_file)
 
