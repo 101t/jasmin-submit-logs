@@ -1,5 +1,7 @@
 # Jasmin Submit Logs Service
 
+
+## using systemctl through Linux (Ubuntu/CentOS)
 after download it create new virtual environment and install the required dependencies:
 
 ```sh
@@ -32,4 +34,14 @@ to check service up-and-running
 
 ```sh
 systemctl status sms_logger.service
+```
+
+## using docker compose
+
+```sh
+docker-compose up -d
+```
+to check the processes:
+```sh
+docker ps
 ```
