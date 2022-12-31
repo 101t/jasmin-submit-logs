@@ -1,5 +1,6 @@
 Twisted~=22.1.0
 psycopg2-binary
+mysql-connector-python
 txAMQP3~=0.9.3
 smpp.pdu3~=0.6
 smpp.twisted3~=0.7
